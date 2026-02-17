@@ -1,0 +1,26 @@
+package me.alpha432.oyvey.features.modules.combat;
+
+import me.alpha432.oyvey.features.modules.Module;
+import me.alpha432.oyvey.features.setting.Setting;
+
+public class Velocity
+        extends Module {
+    public static Velocity INSTANCE;
+    public Setting<Float> horizontal = this.register(new Setting<Float>("Horizontal", 0.0f, 0.0f, 100.0f));
+    public Setting<Float> vertical = this.register(new Setting<Float>("Vertical", 0.0f, 0.0f, 100.0f));
+
+    public Velocity() {
+        super("Velocity", "Reduces knockback", Category.COMBAT);
+        INSTANCE = this;
+    }
+
+    @Override
+    public void onUpdate() {  // Use onUpdate() for better timing (called every tick)
+        if (nullCheck()) return;
+        if (mc.player.hurtTime > 0) {
+            mc.player.motionX *= this.horizontal.getValue() / 100.0f;
+            mc.player.motionY *= this.vertical.getValue() / 100.0f;
+            mc.player.motionZ *= this.horizontal.getValue() / 100.0f;
+        }
+    }
+}
